@@ -1,5 +1,6 @@
 package com.algaworks.algamoneyapi.domain.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -33,4 +34,8 @@ public class Pessoa implements Serializable {
     @NotNull
     @Column(name = "IC_PESSOA")
     private Boolean ativo;
+
+    @JsonIgnore
+    @Transient
+    public boolean isInativo() { return !this.ativo; }
 }

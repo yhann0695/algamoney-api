@@ -51,8 +51,18 @@ public class PessoaController {
     }
 
     @PutMapping(value = "/{codigo}")
-    public ResponseEntity<Pessoa> atualizar(@PathVariable Long codigo,  @Valid @RequestBody Pessoa pessoa) {
-        return ResponseEntity.ok(pessoaService.atualizar(pessoa, codigo));
+    public ResponseEntity<Pessoa> atualizar(@PathVariable Long codigo,  @Valid @RequestBody Pessoa pessoa,
+                                            HttpServletResponse response) {
+        Pessoa pessoaAtualizada = pessoaService.atualizar(pessoa, codigo);
+        publisher.publishEvent(new RecursoCriadoEvent(this, response, pessoa.getCodigo()));
+        return ResponseEntity.status(HttpStatus.CREATED).body(pessoaAtualizada);
+    }
 
+    @PutMapping(value = "/{codigo}/ativo")
+    public ResponseEntity<Pessoa> atualizarPropriedadeAtivo(@PathVariable Long codigo,
+                                @RequestBody(required = true) Boolean ativo, HttpServletResponse response) {
+        Pessoa pessoaAtiva = pessoaService.atualizarPropriedadeAtivo(codigo, ativo);
+        publisher.publishEvent(new RecursoCriadoEvent(this, response, pessoaAtiva.getCodigo()));
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(pessoaAtiva);
     }
 }

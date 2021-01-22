@@ -5,10 +5,12 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.bind.BindResult;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,6 +39,30 @@ public class ApplicationExceptionHandler extends ResponseEntityExceptionHandler 
                 new HttpHeaders(), HttpStatus.NOT_FOUND, request);
     }
 
+    @ExceptionHandler({ DataIntegrityViolationException.class })
+    protected ResponseEntity<Object> handleDataIntegrityViolationException(DataIntegrityViolationException ex,
+                                                                           WebRequest request) {
+
+        String mensagemUsuario = messageSource.getMessage(Mensagens.MSG_RECURSO_OPERACAO_NAO_PERMITIDA,
+                null, LocaleContextHolder.getLocale());
+
+        String mensagemDesenvolvedor = ExceptionUtils.getRootCauseMessage(ex);
+        List<Erro> erros = Arrays.asList(new Erro(mensagemUsuario, mensagemDesenvolvedor));
+        return handleExceptionInternal(ex, erros, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+    }
+
+    @ExceptionHandler({ PessoaInexistenteOuInativoException.class })
+    protected ResponseEntity<Object> handlerPessoaInexistenteOuInativoException(PessoaInexistenteOuInativoException ex,
+                               WebRequest request) {
+
+        String mensagemUsuario = messageSource.getMessage(Mensagens.MSG_PESSOA_INEXISTENTE_INATIVA,
+                null, LocaleContextHolder.getLocale());
+
+        String mensagemDesenvolvedor = ex.toString();
+        List<Erro> errors = Arrays.asList(new Erro(mensagemUsuario, mensagemDesenvolvedor));
+        return ResponseEntity.badRequest().body(errors);
+    }
+
     @Override
     protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex,
                                           HttpHeaders headers, HttpStatus status, WebRequest request) {
@@ -44,7 +70,7 @@ public class ApplicationExceptionHandler extends ResponseEntityExceptionHandler 
         String mensagemUsuario = messageSource.getMessage(Mensagens.MSG_INVALIDA,
                 null, LocaleContextHolder.getLocale());
 
-        String mensagemDesenvolvedor = ex.getCause().toString();
+        String mensagemDesenvolvedor = ex.getCause() != null ? ex.getCause().toString() : ex.toString();
         List<Erro> errors = Arrays.asList(new Erro(mensagemUsuario, mensagemDesenvolvedor));
 
         return handleExceptionInternal(ex, errors, headers, HttpStatus.BAD_REQUEST, request);

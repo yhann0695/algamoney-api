@@ -49,11 +49,23 @@ public class PessoaService {
 
     @Transactional
     public Pessoa atualizar(Pessoa pessoa, Long codigo) {
+        Pessoa pessoaSalva = this.verificarCodigoPessoa(codigo);
+        BeanUtils.copyProperties(pessoa, pessoaSalva, "codigo");
+        return repository.save(pessoaSalva);
+    }
+
+    @Transactional
+    public Pessoa atualizarPropriedadeAtivo(Long codigo, Boolean ativo) {
+        Pessoa pessoaSalva = this.verificarCodigoPessoa(codigo);
+        pessoaSalva.setAtivo(ativo);
+        return repository.save(pessoaSalva);
+    }
+
+    private Pessoa verificarCodigoPessoa(Long codigo) {
         Pessoa pessoaSalva = repository.findById(codigo).get();
         if(pessoaSalva == null) {
             throw new NotFoundException(Mensagens.MSG_CODIGO_INEXISTENTE);
         }
-        BeanUtils.copyProperties(pessoa, pessoaSalva, "codigo");
-        return repository.save(pessoaSalva);
+        return pessoaSalva;
     }
 }
