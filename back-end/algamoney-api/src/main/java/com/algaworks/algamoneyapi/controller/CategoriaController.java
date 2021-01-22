@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -16,7 +17,7 @@ public class CategoriaController {
     private CategoriaService categoriaService;
 
     @PostMapping
-    public ResponseEntity<Categoria> inserir(@RequestBody Categoria categoria) {
+    public ResponseEntity<Categoria> inserir(@Valid @RequestBody Categoria categoria) {
         return ResponseEntity.ok(categoriaService.inserir(categoria));
     }
 

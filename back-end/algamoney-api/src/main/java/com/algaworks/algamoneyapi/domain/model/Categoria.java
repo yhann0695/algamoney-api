@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 @Entity
@@ -21,5 +23,7 @@ public class Categoria implements Serializable {
     private Long codigo;
 
     @Column(name = "NO_CATEGORIA")
+    @NotNull
+    @Size(min = 3, max = 20)
     private String nome;
 }
