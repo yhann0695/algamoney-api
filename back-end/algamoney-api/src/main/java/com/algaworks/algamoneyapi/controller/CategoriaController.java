@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
@@ -24,6 +25,7 @@ public class CategoriaController {
     private ApplicationEventPublisher publisher;
 
     @PostMapping
+    @PreAuthorize("hasAuthority('ROLE_CADASTRAR_CATEGORIA') and #oauth2.hasScope('read')")
     public ResponseEntity<Categoria> inserir(@Valid @RequestBody Categoria categoria,
                                              HttpServletResponse response) {
         categoriaService.inserir(categoria);
@@ -31,12 +33,15 @@ public class CategoriaController {
         return ResponseEntity.status(HttpStatus.CREATED).body(categoria);
     }
 
+
     @GetMapping
+    @PreAuthorize("hasAuthority('ROLE_PESQUISAR_CATEGORIA') and #oauth2.hasScope('write')")
     public ResponseEntity<List<Categoria>> buscarCategorias() {
         return ResponseEntity.ok(categoriaService.buscarTodos());
     }
 
     @GetMapping(value = "/{codigo}")
+    @PreAuthorize("hasAuthority('ROLE_PESQUISAR_CATEGORIA') and #oauth2.hasScope('read')")
     public ResponseEntity<Categoria> buscarPeloCodigo(@PathVariable Long codigo) {
         return ResponseEntity.ok(categoriaService.buscarPeloCodigo(codigo));
     }
