@@ -18,6 +18,39 @@
       <input pInputText type="text" style="width: 95px; margin-left: 2px;"/>
     </div><br />
   
+  <div class="ui-g-12">
     <p-button type="submit" label="Pesquisar"></p-button>
+  </div><br />
+
+  <div class="ui-g">
+    <div class="ui-g-12">
+      <p-table [value]="lancamentos" styleClass="p-datatable-gridlines">
+        <ng-template pTemplate="header">
+          <tr>
+              <th>Pessoa</th>
+              <th>Descrição</th>
+              <th styleClass="col-data">Vencimento</th>
+              <th styleClass="col-data">Pagamento</th>
+              <th styleClass="col-valor">Valor</th>
+              <th></th>
+          </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-lancamento>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+    </ng-template>
+      </p-table>
+    </div>
+  </div><br />
+
+  <div class="ui-g-12">
+    <p-button type="button" label="Novo Lançamento"></p-button>
+  </div>
+
   </div>
 </div>
