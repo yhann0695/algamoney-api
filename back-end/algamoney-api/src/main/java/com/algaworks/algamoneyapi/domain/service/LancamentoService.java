@@ -7,6 +7,7 @@ import com.algaworks.algamoneyapi.domain.model.Pessoa;
 import com.algaworks.algamoneyapi.domain.model.dto.PaginacaoDTO;
 import com.algaworks.algamoneyapi.domain.repository.ILancamentoRepository;
 import com.algaworks.algamoneyapi.domain.repository.IPessoaRepository;
+import com.algaworks.algamoneyapi.domain.repository.filter.LancamentoFilter;
 import com.algaworks.algamoneyapi.utils.Mensagens;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -52,15 +53,12 @@ public class LancamentoService {
         return optLancamento.get();
     }
 
-   /* @Transactional
+    @Transactional
     public List<Lancamento> filtrar(LancamentoFilter filter) {
         return repository.filtrar(filter);
-    }*/
-
-    @Transactional
-    public List<Lancamento> filtrar(String descricao) {
-        return repository.findByDescricaoContainsIgnoreCase(descricao);
     }
+
+
 
     @Transactional
     public Long excluir(Long codigo) {

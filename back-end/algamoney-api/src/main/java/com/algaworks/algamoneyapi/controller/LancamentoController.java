@@ -2,6 +2,7 @@ package com.algaworks.algamoneyapi.controller;
 
 import com.algaworks.algamoneyapi.domain.model.Lancamento;
 import com.algaworks.algamoneyapi.domain.model.dto.PaginacaoDTO;
+import com.algaworks.algamoneyapi.domain.repository.filter.LancamentoFilter;
 import com.algaworks.algamoneyapi.domain.service.LancamentoService;
 import com.algaworks.algamoneyapi.event.RecursoCriadoEvent;
 import io.swagger.annotations.ApiImplicitParam;
@@ -45,10 +46,10 @@ public class LancamentoController {
     /*@ApiImplicitParams({
             @ApiImplicitParam(name = "Authorization", value = "Token de acesso", required = true, paramType = "header",
                     dataTypeClass = String.class) })*/
-    @GetMapping
+    /*@GetMapping
     public ResponseEntity<List<Lancamento>> buscarTodos() {
         return ResponseEntity.ok(lancamentoService.buscarTodos());
-    }
+    }*/
 
 
    /* @ApiImplicitParams({
@@ -63,9 +64,9 @@ public class LancamentoController {
     /*@ApiImplicitParams({
             @ApiImplicitParam(name = "Authorization", value = "Token de acesso", required = true, paramType = "header",
                     dataTypeClass = String.class) })*/
-    @GetMapping(value = "/descricao/{descricao}")
-    public ResponseEntity<List<Lancamento>> pesquisar(@PathVariable(value = "descricao") String descricao) {
-        List<Lancamento> lista = lancamentoService.filtrar(descricao);
+    @GetMapping
+    public ResponseEntity<List<Lancamento>> pesquisar(LancamentoFilter filter) {
+        List<Lancamento> lista = lancamentoService.filtrar(filter);
         return ResponseEntity.ok(lista);
     }
 
