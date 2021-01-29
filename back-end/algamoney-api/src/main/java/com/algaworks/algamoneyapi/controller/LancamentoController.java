@@ -10,6 +10,7 @@ import io.swagger.annotations.ApiImplicitParams;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -65,8 +66,8 @@ public class LancamentoController {
             @ApiImplicitParam(name = "Authorization", value = "Token de acesso", required = true, paramType = "header",
                     dataTypeClass = String.class) })*/
     @GetMapping
-    public ResponseEntity<List<Lancamento>> pesquisar(LancamentoFilter filter) {
-        List<Lancamento> lista = lancamentoService.filtrar(filter);
+    public ResponseEntity<Page<Lancamento>> pesquisar(LancamentoFilter filter, Pageable pageable) {
+        Page<Lancamento> lista = lancamentoService.filtrar(filter, pageable);
         return ResponseEntity.ok(lista);
     }
 
@@ -82,11 +83,4 @@ public class LancamentoController {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
-    /*@ApiImplicitParams({
-            @ApiImplicitParam(name = "Authorization", value = "Token de acesso", required = true, paramType = "header",
-                    dataTypeClass = String.class) })*/
-    @PostMapping(value = "/consultar-paginado")
-    public ResponseEntity<Page<Lancamento>> consultarPaginado(@RequestBody PaginacaoDTO<String> paginacaoDTO) {
-        return ResponseEntity.ok(lancamentoService.consultarPaginado(paginacaoDTO));
-    }
 }

@@ -2,7 +2,9 @@ package com.algaworks.algamoneyapi.domain.repository.lancamento;
 
 import com.algaworks.algamoneyapi.domain.model.Lancamento;
 import com.algaworks.algamoneyapi.domain.repository.filter.LancamentoFilter;
-import org.springframework.util.StringUtils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -20,7 +22,7 @@ public class ILancamentoRepositoryImpl implements ILancamentoRepositoryQuery{
     private EntityManager manager;
 
     @Override
-    public List<Lancamento> filtrar(LancamentoFilter filter) {
+    public Page<Lancamento> filtrar(LancamentoFilter filter, Pageable pageable) {
         CriteriaBuilder builder = manager.getCriteriaBuilder();
         CriteriaQuery<Lancamento> criteria = builder.createQuery(Lancamento.class);
         Root<Lancamento> root = criteria.from(Lancamento.class);
@@ -29,7 +31,9 @@ public class ILancamentoRepositoryImpl implements ILancamentoRepositoryQuery{
         criteria.where(predicates);
 
         TypedQuery<Lancamento> query = manager.createQuery(criteria);
-        return query.getResultList();
+        adicionarRestricoesDePaginacao(query, pageable);
+
+        return new PageImpl<>(query.getResultList(), pageable, total(filter));
     }
 
     public Predicate[] criarRestricoes(LancamentoFilter filter, CriteriaBuilder builder, Root<Lancamento> root) {
@@ -51,5 +55,26 @@ public class ILancamentoRepositoryImpl implements ILancamentoRepositoryQuery{
                     builder.lessThanOrEqualTo(root.get("dataVencimento"), filter.getDataVencimentoAte()));
         }
         return predicates.toArray(new Predicate[predicates.size()]);
+    }
+
+    public void adicionarRestricoesDePaginacao(TypedQuery<Lancamento> query, Pageable pageable) {
+        int paginaAtual = pageable.getPageNumber();
+        int totalRegistroPorPagina = pageable.getPageSize();
+        int primeiroResgistroDaPagina = paginaAtual * totalRegistroPorPagina;
+
+        query.setFirstResult(primeiroResgistroDaPagina);
+        query.setMaxResults(totalRegistroPorPagina);
+    }
+
+    private Long total(LancamentoFilter filter) {
+        CriteriaBuilder builder = manager.getCriteriaBuilder();
+        CriteriaQuery<Long> criteria = builder.createQuery(Long.class);
+        Root<Lancamento> root = criteria.from(Lancamento.class);
+
+        Predicate[] predicates = criarRestricoes(filter, builder, root);
+        criteria.where(predicates);
+
+        criteria.select(builder.count(root));
+        return manager.createQuery(criteria).getSingleResult();
     }
 }

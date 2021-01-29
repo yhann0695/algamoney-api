@@ -54,8 +54,8 @@ public class LancamentoService {
     }
 
     @Transactional
-    public List<Lancamento> filtrar(LancamentoFilter filter) {
-        return repository.filtrar(filter);
+    public Page<Lancamento> filtrar(LancamentoFilter filter, Pageable pageable) {
+        return repository.filtrar(filter, pageable);
     }
 
 
@@ -68,22 +68,5 @@ public class LancamentoService {
         }
         repository.delete(lancamento.get());
         return codigo;
-    }
-
-
-    @Transactional
-    public Page<Lancamento> consultarPaginado(PaginacaoDTO<String> paginacaoDTO) {
-        Pageable paginacao = PageRequest.of(paginacaoDTO.getNumeroPagina(), paginacaoDTO.getQuantidadePorPagina());
-        Page<Lancamento> lista = null;
-        if(paginacaoDTO.getFiltro() == null) {
-            lista = repository.findAll(paginacao);
-        } else {
-            lista = repository.findByDescricaoContainsIgnoreCase(paginacao, paginacaoDTO.getFiltro());
-        }
-
-        if (!lista.hasContent()) {
-            throw new NotFoundException(Mensagens.MSG_RECURSO_NAO_ENCONTRADO);
-        }
-        return new PageImpl<Lancamento>(lista.getContent(), paginacao, lista.getTotalElements());
     }
 }
