@@ -32,9 +32,6 @@ public class LancamentoController {
     private ApplicationEventPublisher publisher;
 
 
-    /*@ApiImplicitParams({
-            @ApiImplicitParam(name = "Authorization", value = "Token de acesso", required = true, paramType = "header",
-                    dataTypeClass = String.class) })*/
     @PostMapping
     public ResponseEntity<Lancamento> inserir(@Valid @RequestBody Lancamento lancamento,
                                               HttpServletResponse response) {
@@ -44,37 +41,17 @@ public class LancamentoController {
         return ResponseEntity.status(HttpStatus.CREATED).body(lancamento);
     }
 
-    /*@ApiImplicitParams({
-            @ApiImplicitParam(name = "Authorization", value = "Token de acesso", required = true, paramType = "header",
-                    dataTypeClass = String.class) })*/
-    /*@GetMapping
-    public ResponseEntity<List<Lancamento>> buscarTodos() {
-        return ResponseEntity.ok(lancamentoService.buscarTodos());
-    }*/
-
-
-   /* @ApiImplicitParams({
-            @ApiImplicitParam(name = "Authorization", value = "Token de acesso", required = true, paramType = "header",
-                    dataTypeClass = String.class) })*/
     @GetMapping(value = "/{codigo}")
     public ResponseEntity<Lancamento> buscarPeloCodigo(@PathVariable Long codigo) {
        return ResponseEntity.ok(lancamentoService.buscarPeloCodigo(codigo));
     }
 
-
-    /*@ApiImplicitParams({
-            @ApiImplicitParam(name = "Authorization", value = "Token de acesso", required = true, paramType = "header",
-                    dataTypeClass = String.class) })*/
     @GetMapping
     public ResponseEntity<Page<Lancamento>> pesquisar(LancamentoFilter filter, Pageable pageable) {
         Page<Lancamento> lista = lancamentoService.filtrar(filter, pageable);
         return ResponseEntity.ok(lista);
     }
 
-
-    /*@ApiImplicitParams({
-            @ApiImplicitParam(name = "Authorization", value = "Token de acesso", required = true, paramType = "header",
-                    dataTypeClass = String.class) })*/
     @DeleteMapping(value = "/{codigo}")
     public ResponseEntity<Long> exluir(@PathVariable(value = "codigo") Long codigo,
                                        HttpServletResponse response) {

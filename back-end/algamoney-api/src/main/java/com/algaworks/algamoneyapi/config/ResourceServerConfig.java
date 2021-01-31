@@ -26,27 +26,4 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .csrf().disable();
     }
-
-
-    /* private static final String[] AUTH_WHITELIST = {
-            "/swagger-resources/**",
-            "/swagger-ui.html",
-            "/v2/api-docs",
-            "/webjars/**"
-    };*/
-
-
-
-/*
-    @Override
-    public void configure(HttpSecurity http) throws Exception {
-        http.cors().and().authorizeRequests().
-                antMatchers(AUTH_WHITELIST).
-                permitAll().
-                anyRequest().
-                authenticated()
-                .and().sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and().csrf().disable();
-    }*/
 }

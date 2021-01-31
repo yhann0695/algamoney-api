@@ -23,18 +23,6 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Autowired
     private AuthenticationManager authenticationManager;
 
-    /*
-     * Define as configurações de segurança nos endpoints relativos aos tokens de
-     * acesso
-     */
-    /*@Override
-    public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
-        endpoints.tokenStore(tokenStore())
-        .accessTokenConverter(accesTokenConverter())
-                .reuseRefreshTokens(false)
-                .authenticationManager(authenticationManager);
-    }*/
-
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
         clients.inMemory()
@@ -74,36 +62,4 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     public TokenStore tokenStore() {
         return new JwtTokenStore(accessTokenConverter());
     }
-
-    /*
-     * Define configurações para os endpoints de autenticação e geração de tokens.
-     *
-     * /oauth/check_token e /oauth/token_key
-     *
-     */
-    /*@Override
-    public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
-        security.tokenKeyAccess("permitAll()").checkTokenAccess("isAuthenticated()")
-                .allowFormAuthenticationForClients();
-    }*/
-
-    /*
-     * Define os detalhes para o acesso da aplicação cliente ao servidor de
-     * autenticação;
-     *
-     * https://swagger.io/docs/specification/authentication/oauth2/
-     *
-     *
-     * Credenciais de senha do proprietário do recurso (ou apenas senha ) - Requer
-     * login com um nome de usuário e senha. Como nesse caso as credenciais farão
-     * parte da solicitação, esse fluxo é adequado apenas para clientes confiáveis
-     * ​​(por exemplo, aplicativos oficiais liberados pelo provedor de API).
-     */
-    /*@Override
-    public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-        clients.inMemory().withClient("angular").secret("@ngul@r0")
-                .authorizedGrantTypes("password", "refresh_token")
-                .scopes("read", "write").accessTokenValiditySeconds(10000).
-                refreshTokenValiditySeconds(10000);
-    }*/
 }

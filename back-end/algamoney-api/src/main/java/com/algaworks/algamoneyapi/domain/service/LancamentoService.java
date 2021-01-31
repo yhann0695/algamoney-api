@@ -40,11 +40,6 @@ public class LancamentoService {
     }
 
     @Transactional
-    public List<Lancamento> buscarTodos() {
-        return repository.findAll();
-    }
-
-    @Transactional
     public Lancamento buscarPeloCodigo(Long codigo) {
         Optional<Lancamento>  optLancamento = repository.findById(codigo);
         if (!optLancamento.isPresent()) {
