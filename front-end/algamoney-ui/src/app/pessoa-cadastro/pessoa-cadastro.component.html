@@ -1,1 +1,56 @@
-<p>pessoa-cadastro works!</p>
+<div class="container">
+    <form>
+        <div class="ui-g-12">
+            <h1>Nova Pessoa</h1>
+        </div>
+        <div class="p-grid">
+            <div class="p-col-6 p-md-3 p-lg-12">               
+                <label for="nome">Nome</label>
+                <input type="text" id="nome" name="nome" pInputText [style]="{'width':'100%'}" />
+            </div> 
+
+            <div class="p-col-6 p-md-3 p-lg-9"> 
+                <label>Logradouro</label>
+                <input pInputText type="text" [style]="{'width':'100%'}" />
+            </div>
+
+            <div class="p-col-4 p-md-3 p-lg-3">
+                <label>Número</label>
+                <p-inputMask type="text" mask="99999999" [style]="{'width':'100%'}"></p-inputMask>
+            </div>   
+
+            <div class="p-col-4 p-md-3 p-lg-4">
+                <label>Complemento</label>
+                <input pInputText type="text" [style]="{'width':'100%'}"/>
+            </div>
+
+            
+            <div class="p-col-6 p-md-3 p-lg-4">
+                <label>Bairro</label>
+                <input pInputText type="text" [style]="{'width':'100%'}" />
+            </div>
+
+            <div class="p-col-6 p-md-3 p-lg-4">
+                <label>CEP</label>
+                <p-inputMask mask="99.999-999" placeholder="99.999-999" type="text" [style]="{'width':'100%'}"></p-inputMask>
+            </div>
+
+            <div class="p-col-6 p-md-3 p-lg-6">
+                <label>Cidade</label>
+                <input pInputTextarea type="text" [style]="{'width':'100%'}" />
+            </div>
+
+            <div class="p-col-6 p-md-3 p-lg-6">
+                <label>Estado</label>
+                <input pInputTextarea type="text" [style]="{'width':'100%'}" />
+            </div>
+
+            <div class="p-col-6 p-md-3 p-lg-12">
+                <button style="margin-right: 1%;" icon="pi pi-check" pButton type="submit" label="Salvar"></button>
+                <button pButton type="submit" label="Novo"></button>
+                <a href="javascript:;" style="margin-left: 1%;">Voltar para a pesquisa</a>
+            </div>
+        </div>
+    </form>
+</div>
+

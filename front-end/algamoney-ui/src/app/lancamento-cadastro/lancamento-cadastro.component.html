@@ -11,7 +11,7 @@
         <div class="p-grid">
             <div class="p-col-6 p-md-3 p-lg-3">               
                 <label>Vencimento</label>
-                <p-calendar dateFormat="dd/mm/yy" [style]="{'width':'100%'}" [showIcon]="true" [readonlyInput]="false"></p-calendar>
+                <p-calendar dateFormat="dd/mm/yy" name="vencimento" [style]="{'width':'100%'}" [showIcon]="true" [readonlyInput]="false"></p-calendar>               
             </div> 
 
             <div class="p-col-6 p-md-3 p-lg-3"> 
@@ -21,7 +21,10 @@
 
             <div class="p-col-4 p-md-3 p-lg-9">
                 <label>Descrição</label>
-                <input pInputText type="text" style="width: 100%;"/>
+                <input pInputText type="text" style="width: 100%;" name="descricao"
+                ngModel #descricao="ngModel" required minlength="5" />
+                <app-message [control]="descricao" error="required" text="Informe uma descrição"></app-message>
+                <app-message [control]="descricao" error="minlength" text="Mínimo de {{ descricao.errors?.minlength?.requiredLength }} caracteres"></app-message>
             </div>   
 
             <div class="p-col-4 p-md-3 p-lg-3">

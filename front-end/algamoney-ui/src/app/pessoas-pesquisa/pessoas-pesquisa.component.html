@@ -16,32 +16,7 @@
   
     <div class="ui-g">
       <div class="ui-g-12">
-        <p-table [value]="pessoas" styleClass="p-datatable-gridlines">
-          <ng-template pTemplate="header">
-            <tr>
-                <th>Nome</th>
-                <th>Cidade</th>
-                <th>Estado</th>
-                <th>Status</th>
-                <th></th>
-            </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-lancamento>
-          <tr>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td>
-                <button pButton pRipple title="Editar" alt="Editar"
-                        type="button" icon="pi pi-pencil" class="p-mr-2 p-mb-2"></button>
-
-                <button pButton pRipple title="Excluir" alt="Excluir"
-                        type="button" icon="pi pi-trash" class="p-mr-2 p-mb-2"></button>
-              </td>
-          </tr>
-      </ng-template>
-        </p-table>
+        <app-pessoas-grid [pessoas]="pessoas"></app-pessoas-grid>
       </div>
       <p-paginator [rows]="10" [totalRecords]="120" [rowsPerPageOptions]="[10,20,30]"></p-paginator>
     </div><br />

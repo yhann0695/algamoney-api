@@ -7,7 +7,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LancamentosPesquisaComponent implements OnInit {
 
-  public lancamentos = [{}];
+  lancamentos = [
+    { tipo: 'DESPESA', descricao: 'Compra de pão', dataVencimento: '06/02/1995',
+     dataPagamento: '07/03/1998', valor: 14332, pessoa: 'Atacodo Brasil'},
+     { tipo: 'DESPESA', descricao: 'Compra de pão', dataVencimento: '06/02/1995',
+     dataPagamento: '07/03/1998', valor: 14332, pessoa: 'Atacodo Brasil'},
+     { tipo: 'DESPESA', descricao: 'Compra de pão', dataVencimento: '06/02/1995',
+     dataPagamento: '07/03/1998', valor: 14332, pessoa: 'Atacodo Brasil'},
+     { tipo: 'DESPESA', descricao: 'Compra de pão', dataVencimento: '06/02/1995',
+     dataPagamento: '07/03/1998', valor: 14332, pessoa: 'Atacodo Brasil'}
+  ];
 
   constructor() { }
 
